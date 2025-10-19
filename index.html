@@ -70,6 +70,10 @@
         .skill-progress.animate {
             transform: scaleX(1);
         }
+
+        .profile-img {
+          transition: opacity 0.4s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -131,7 +135,7 @@
                 <div class="hidden md:flex justify-center">
                     <div class="relative group">
                         <div class="w-80 h-80 bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl overflow-hidden flex items-center justify-center">
-                            <img id="profile-img" src="img/me.jpeg" alt="Leomar R. Montoya" class="w-full h-full object-cover smooth-transition">
+                            <img id="profile-img" src="img/me.png" alt="Leomar R. Montoya" class="w-full h-full object-cover smooth-transition">
                         </div>
                         <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500 rounded-full opacity-20 group-hover:opacity-30 smooth-transition"></div>
                         <div class="absolute -top-4 -left-4 w-16 h-16 bg-purple-500 rounded-full opacity-20 group-hover:opacity-30 smooth-transition"></div>
@@ -658,20 +662,34 @@
     </footer>
 
     <script>
-        // Profile image hover effect
+        // Profile image slideshow on hover
         const profileImg = document.getElementById('profile-img');
-        const defaultImage = 'img/me.jpeg';
-        const hoverImage = 'img/me2.jpg';
+        
+        // List of images for the slideshow
+        const images = ['img/me.png', 'img/me2.png', 'img/me3.png'];
+        
+        // Variables for tracking
+        let index = 0;
+        let slideshowInterval;
         
         if (profileImg) {
+            // Mouse enters — start slideshow
             profileImg.addEventListener('mouseenter', () => {
-                profileImg.src = hoverImage;
+                clearInterval(slideshowInterval); // clear just in case
+                slideshowInterval = setInterval(() => {
+                    index = (index + 1) % images.length;
+                    profileImg.src = images[index];
+                }, 800); // change image every 0.8 seconds
             });
-            
+        
+            // Mouse leaves — stop slideshow and reset
             profileImg.addEventListener('mouseleave', () => {
-                profileImg.src = defaultImage;
+                clearInterval(slideshowInterval);
+                index = 0;
+                profileImg.src = images[index];
             });
         }
+
 
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -756,6 +774,7 @@
 </body>
 
 </html>
+
 
 
 
